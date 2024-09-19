@@ -1,7 +1,14 @@
+'use client';
+
+import Map from '@/components/map';
+import { useAppSelector } from '@/lib/hooks';
+
 const Page = () => {
+  const { locations } = useAppSelector((store) => store.location);
+
   return (
     <div>
-      <h1>Rota Çizgileri</h1>
+      <Map locations={locations}/>
     </div>
   );
 };

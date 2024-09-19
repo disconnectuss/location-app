@@ -1,9 +1,9 @@
-import Map from "@/components/map/Map";
+import Map from '@/components/map';
 
 const Page = () => {
   return (
     <div>
-      <Map />
+      <Map isClickable/>
     </div>
   );
 };
