@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
-import { v4 } from 'uuid';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import { v4 } from "uuid";
 
 export interface Location {
   id: string;
@@ -15,11 +15,17 @@ interface LocationState {
 }
 
 const initialState: LocationState = {
-  locations: JSON.parse(localStorage.getItem('locations')) || [],
+  locations: [],
 };
 
+if (typeof window !== "undefined") {
+  // Only run this on the client
+  initialState.locations = JSON.parse(localStorage.getItem("locations") || "[]");
+}
+
+
 const { reducer, actions } = createSlice({
-  name: 'locations',
+  name: "locations",
   initialState,
   reducers: {
     addLocation: (state, action: PayloadAction<Location>) => {
@@ -27,9 +33,9 @@ const { reducer, actions } = createSlice({
 
       state.locations.push(newLoc);
 
-      localStorage.setItem('locations', JSON.stringify(state.locations));
+      localStorage.setItem("locations", JSON.stringify(state.locations));
 
-      toast.success('Yeni Lokasyon Oluşturuldu');
+      toast.success("Yeni Lokasyon Oluşturuldu");
     },
 
     updateLocation: (

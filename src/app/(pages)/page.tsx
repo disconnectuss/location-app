@@ -5,7 +5,20 @@ import React from "react";
 
 const Page = () => {
   const store = useAppSelector((store) => store);
-  console.log(store)
+  // console.log(store)
+  // browser | Chrome conflict => URL.parse error
+  // if (!URL.canParse) {
+  //   URL.canParse = function (urlString) {
+  //     try {
+  //       new URL(urlString);
+  //       return true;
+  //     } catch (error) {
+  //       return false;
+  //     }
+  //   };
+  // } 
+
+  
   return (
     <div>
       <h1>hello</h1>
