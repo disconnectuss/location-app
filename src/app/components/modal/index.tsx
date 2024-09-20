@@ -1,5 +1,5 @@
-import { useAppDispatch } from '@/lib/hooks';
-import { addLocation } from '@/lib/slices/locationSlice';
+import { useAppDispatch } from "@/lib/hooks";
+import { addLocation } from "@/lib/slices/locationSlice";
 import {
   Button,
   Modal,
@@ -14,10 +14,10 @@ import {
   Input,
   Flex,
   Select,
-} from '@chakra-ui/react';
-import { LatLng } from 'leaflet';
-import { Location } from './../../lib/slices/locationSlice';
-import { SubmitEvent } from 'react';
+} from "@chakra-ui/react";
+import { LatLng } from "leaflet";
+import { Location } from "./../../lib/slices/locationSlice";
+import { FormEvent } from "react";
 
 type Props = {
   close: () => void;
@@ -27,43 +27,38 @@ type Props = {
 const FormModal = ({ selected, close }: Props) => {
   const dispatch = useAppDispatch();
 
-  // create a loc on submit
-  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // formdan verileri al
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.target); // eslint-disable-line, check it again 
     const locData = Object.fromEntries(formData.entries());
 
-    // prop olarak gelen enlem boylamı form veirlerine ekl
     const updatedData = {
       ...locData,
       lat: selected?.lat,
       lng: selected?.lng,
     };
 
-    // redux'a yeni lokasyon ekleneceiğini bildir
     dispatch(addLocation(updatedData as Location));
 
-    // modalı kapat
-    close()
+    close();
   };
 
   return (
     <Modal isOpen={!!selected} onClose={close} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Yeni Konum Oluştur</ModalHeader>
+        <ModalHeader>Create New Location</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={handleSubmit}>
             <FormControl isRequired>
-              <FormLabel>Lokasyon İsmi</FormLabel>
-              <Input name="title" placeholder="örn: İlk Durak" />
+              <FormLabel>Location Name</FormLabel>
+              <Input name="title" placeholder="e.g., First Stop" />
             </FormControl>
 
             <FormControl isRequired my={5}>
-              <FormLabel>Enlem / Boylam</FormLabel>
+              <FormLabel>Latitude / Longitude</FormLabel>
               <Flex gap={2}>
                 <Input disabled value={selected?.lat} />
                 <Input disabled value={selected?.lng} />
@@ -71,20 +66,20 @@ const FormModal = ({ selected, close }: Props) => {
             </FormControl>
 
             <FormControl isRequired>
-              <FormLabel>Renk</FormLabel>
-              <Select name="color" placeholder="Renk seçiniz">
-                <option value="red">Kırmızı</option>
-                <option value="blue">Mavi</option>
-                <option value="green">Yeşil</option>
+              <FormLabel>Color</FormLabel>
+              <Select name="color" placeholder="Select a color">
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
               </Select>
             </FormControl>
 
             <ModalFooter my={3}>
               <Button variant="ghost" mr={3} onClick={close} type="button">
-                Kapat
+                Close
               </Button>
               <Button colorScheme="blue" type="submit">
-                Oluştur
+                Create
               </Button>
             </ModalFooter>
           </form>

@@ -20,9 +20,9 @@ interface Props {
 }
 
 const Links = [
-  { href: "add", label: "Konum Oluştur" },
-  { href: "list", label: "Konum Listesi" },
-  { href: "route", label: "Rota Çizgileri" },
+  { href: "add", label: "Add Location" },
+  { href: "list", label: "Location List" },
+  { href: "route", label: "Route Lines" },
 ];
 
 const NavLink = (props: Props) => {
@@ -50,11 +50,7 @@ export default function WithAction() {
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
-        <Flex
-          h={16}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
+        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -64,7 +60,7 @@ export default function WithAction() {
           />
           <HStack spacing={8} alignItems={"center"}>
             <Box>
-              <Heading>CASE</Heading>
+              <Heading>LooC</Heading>
             </Box>
             <HStack
               as={"nav"}
@@ -87,7 +83,7 @@ export default function WithAction() {
                 mr={4}
                 leftIcon={<AddIcon />}
               >
-                Konum Ekle
+                Add Location
               </Button>
             </Link>
           </Flex>

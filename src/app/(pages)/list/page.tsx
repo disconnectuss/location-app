@@ -14,10 +14,17 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react";
+import { icon } from "leaflet";
+import { Marker } from "react-leaflet";
+import { i } from "framer-motion/client";
 
 const LocationList = () => {
   const [mounted, setMounted] = useState(false);
   const locations = useSelector((state: RootState) => state.location.locations);
+  const mIcon = icon({
+    iconUrl: "https://www.svgrepo.com/show/376955/map-marker.svg",
+    iconSize: [30, 30],
+  });
 
   useEffect(() => {
     setMounted(true);
