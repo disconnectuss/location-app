@@ -1,7 +1,6 @@
 import { useAppDispatch } from "@/lib/hooks";
 import { addLocation } from "@/lib/slices/locationSlice";
 import {
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -25,8 +24,8 @@ const FormModal = ({ selected, close }: Props) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    //@ts-ignore
-    const formData = new FormData(e.target);
+    // Instead of @ts-expect-error, explicitly cast the target as HTMLFormElement
+    const formData = new FormData(e.target as HTMLFormElement);
     const locData = Object.fromEntries(formData.entries());
 
     const updatedData = {
@@ -58,3 +57,4 @@ const FormModal = ({ selected, close }: Props) => {
 };
 
 export default FormModal;
+

@@ -18,7 +18,7 @@ type Props = {
   latlng?: [number, number];
 };
 
-const Form = ({ handleSubmit, editItem, onClose, latlng }: Props) => {
+const Form = ({ handleSubmit, editItem,latlng }: Props) => {
   const router = useRouter();
 
   return (

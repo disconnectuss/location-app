@@ -8,9 +8,8 @@ import {
   TileLayer,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useMapEvent } from "react-leaflet/hooks";
 import { useState } from "react";
-import { icon, LatLng, LatLngExpression } from "leaflet";
+import { LatLng, LatLngExpression } from "leaflet";
 import FormModal from "../modal";
 import { Location } from "@/lib/slices/locationSlice";
 import { greenIcon, redIcon, blueIcon, userIcon } from "@/utils/constants";
@@ -21,14 +20,8 @@ import getUserLoc from "@/utils/getLoc";
 function MapEventListener() {
   const [selected, setSelected] = useState<LatLng | null>();
 
-  const map = useMapEvent("click", (e) => {
-    setSelected(e.latlng);
-  });
-
   if (selected) {
-    return (
-      <FormModal close={() => setSelected(null)} selected={selected} />
-    );
+    return <FormModal close={() => setSelected(null)} selected={selected} />;
   }
 
   return null;
@@ -59,12 +52,13 @@ const Map = ({ locations, isClickable }: MapProps) => {
       {isClickable && <MapEventListener />}
 
       <Marker position={userLoc} icon={userIcon}>
-        <Popup>Şuanki konumunuz!</Popup>
+        <Popup>Current Location!</Popup>
       </Marker>
 
       {locations &&
         locations.map((i) => (
           <Marker
+            key={`${i.lat}-${i.lng}`} // Assign unique key using latitude and longitude
             icon={
               i.color === "red"
                 ? redIcon
@@ -76,9 +70,7 @@ const Map = ({ locations, isClickable }: MapProps) => {
           >
             <Popup>
               <Heading size="sm">{i.title}</Heading>
-
               <p>{i.lat}</p>
-
               <p>{i.lng}</p>
             </Popup>
           </Marker>
