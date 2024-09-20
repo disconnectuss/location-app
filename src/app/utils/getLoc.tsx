@@ -1,12 +1,12 @@
 const getLoc = () => {
-  const currentLoc: [number, number] = [39.340544, 35.310927];
+  let currentLoc: [number, number] = [39.340544, 35.310927];
 
   navigator.geolocation.getCurrentPosition(
     (params) => {
-      console.log(params);
+      currentLoc = [params.coords.latitude, params.coords.longitude];
     },
     () => {
-      console.log("default location updated successfully");
+      console.log("Default location updated successfully");
     }
   );
 
