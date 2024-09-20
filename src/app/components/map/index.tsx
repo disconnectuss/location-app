@@ -6,6 +6,7 @@ import {
   Polyline,
   Popup,
   TileLayer,
+  useMapEvent,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useState } from "react";
@@ -19,7 +20,9 @@ import getUserLoc from "@/utils/getLoc";
 // Map Event Listener
 function MapEventListener() {
   const [selected, setSelected] = useState<LatLng | null>();
-
+  useMapEvent("click", (e) => {
+    setSelected(e.latlng);
+  });
   if (selected) {
     return <FormModal close={() => setSelected(null)} selected={selected} />;
   }

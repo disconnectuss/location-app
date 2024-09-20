@@ -15,15 +15,8 @@ interface LocationState {
 }
 
 const initialState: LocationState = {
-  locations: [],
+  locations: JSON.parse(localStorage.getItem("locations") || "[]"),
 };
-
-if (typeof window !== "undefined") {
-  // Only run this on the client
-  initialState.locations = JSON.parse(
-    localStorage.getItem("locations") || "[]"
-  );
-}
 
 const { reducer, actions } = createSlice({
   name: "locations",
@@ -36,7 +29,7 @@ const { reducer, actions } = createSlice({
 
       localStorage.setItem("locations", JSON.stringify(state.locations));
 
-      toast.success("Yeni Lokasyon Oluşturuldu");
+      toast.success("New Location added successfully");
     },
 
     updateLocation: (state, action: PayloadAction<Location>) => {
@@ -48,7 +41,7 @@ const { reducer, actions } = createSlice({
 
       localStorage.setItem("locations", JSON.stringify(state.locations));
 
-      toast.success("Lokasyon Güncellendi");
+      toast.success("Location Updated!");
     },
   },
 });

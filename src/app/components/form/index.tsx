@@ -18,7 +18,7 @@ type Props = {
   latlng?: [number, number];
 };
 
-const Form = ({ handleSubmit, editItem,latlng }: Props) => {
+const Form = ({ handleSubmit, editItem,latlng, onClose }: Props) => {
   const router = useRouter();
 
   return (
@@ -64,7 +64,7 @@ const Form = ({ handleSubmit, editItem,latlng }: Props) => {
             Back
           </Button>
         ) : (
-          <Button variant="ghost" mr={3} onClick={close} type="button">
+          <Button variant="ghost" mr={3} onClick={onClose} type="button">
             Close
           </Button>
         )}

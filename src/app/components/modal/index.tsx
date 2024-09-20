@@ -49,6 +49,7 @@ const FormModal = ({ selected, close }: Props) => {
           <Form
             handleSubmit={handleSubmit}
             latlng={[selected?.lat, selected?.lng] as [number, number]}
+            onClose={close}
           />
         </ModalBody>
       </ModalContent>

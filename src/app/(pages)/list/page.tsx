@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
   Heading,
-  Spinner,
   Table,
   Thead,
   Tbody,
@@ -19,16 +18,7 @@ import Image from "next/image";
 import { useAppSelector } from "@/lib/hooks";
 
 const LocationList = () => {
-  const [mounted, setMounted] = useState(false);
   const locations = useAppSelector((state) => state.location.locations);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return <Spinner size="xl" />;
-  }
 
   return (
     <Box padding={4}>
