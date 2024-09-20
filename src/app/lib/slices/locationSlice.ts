@@ -20,9 +20,10 @@ const initialState: LocationState = {
 
 if (typeof window !== "undefined") {
   // Only run this on the client
-  initialState.locations = JSON.parse(localStorage.getItem("locations") || "[]");
+  initialState.locations = JSON.parse(
+    localStorage.getItem("locations") || "[]"
+  );
 }
-
 
 const { reducer, actions } = createSlice({
   name: "locations",
@@ -38,15 +39,16 @@ const { reducer, actions } = createSlice({
       toast.success("Yeni Lokasyon Oluşturuldu");
     },
 
-    updateLocation: (
-      state,
-      action: PayloadAction<{ id: string; updatedLocation: Partial<Location> }>
-    ) => {
-      const { id, updatedLocation } = action.payload;
-      const location = state.locations.find((loc) => loc.id === id);
-      if (location) {
-        Object.assign(location, updatedLocation);
-      }
+    updateLocation: (state, action: PayloadAction<Location>) => {
+      const index = state.locations.findIndex(
+        (i) => i.id === action.payload.id
+      );
+
+      state.locations.splice(index, 1, action.payload);
+
+      localStorage.setItem("locations", JSON.stringify(state.locations));
+
+      toast.success("Lokasyon Güncellendi");
     },
   },
 });

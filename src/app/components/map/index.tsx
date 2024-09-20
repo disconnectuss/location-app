@@ -1,23 +1,34 @@
-'use client';
+"use client";
 
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import { useMapEvent } from 'react-leaflet/hooks';
-import { useState } from 'react';
-import { icon, LatLng } from 'leaflet';
-import FormModal from '../modal';
-import { Location } from '@/lib/slices/locationSlice';
+import {
+  MapContainer,
+  Marker,
+  Polyline,
+  Popup,
+  TileLayer,
+} from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import { useMapEvent } from "react-leaflet/hooks";
+import { useState } from "react";
+import { icon, LatLng, LatLngExpression } from "leaflet";
+import FormModal from "../modal";
+import { Location } from "@/lib/slices/locationSlice";
+import { greenIcon, redIcon, blueIcon, userIcon } from "@/utils/constants";
+import { Heading } from "@chakra-ui/react";
+import getUserLoc from "@/utils/getLoc";
 
 // Map Event Listener
 function MapEventListener() {
   const [selected, setSelected] = useState<LatLng | null>();
 
-  const map = useMapEvent('click', (e) => {
+  const map = useMapEvent("click", (e) => {
     setSelected(e.latlng);
   });
 
   if (selected) {
-    return <FormModal close={() => setSelected(null)} selected={selected} />;
+    return (
+      <FormModal close={() => setSelected(null)} selected={selected} />
+    );
   }
 
   return null;
@@ -27,10 +38,12 @@ type MapProps = { locations?: Location[]; isClickable?: boolean };
 
 // Map Container
 const Map = ({ locations, isClickable }: MapProps) => {
-  const mIcon = icon({
-    iconUrl: 'https://www.svgrepo.com/show/376955/map-marker.svg',
-    iconSize: [30, 30],
-  });
+  const userLoc = getUserLoc();
+
+  const lineArr = locations && [
+    userLoc,
+    ...locations!.map((i) => [i.lat, i.lng]),
+  ];
 
   return (
     <MapContainer
@@ -45,21 +58,33 @@ const Map = ({ locations, isClickable }: MapProps) => {
 
       {isClickable && <MapEventListener />}
 
+      <Marker position={userLoc} icon={userIcon}>
+        <Popup>Şuanki konumunuz!</Popup>
+      </Marker>
+
       {locations &&
         locations.map((i) => (
-          <Marker icon={mIcon} position={[i.lat, i.lng]}>
+          <Marker
+            icon={
+              i.color === "red"
+                ? redIcon
+                : i.color === "green"
+                ? greenIcon
+                : blueIcon
+            }
+            position={[i.lat, i.lng]}
+          >
             <Popup>
+              <Heading size="sm">{i.title}</Heading>
 
-              <h1>{i.title}</h1>
-              
-               <br />
+              <p>{i.lat}</p>
 
-              <h1>
-                {i.lat} {i.lng}
-              </h1>
+              <p>{i.lng}</p>
             </Popup>
           </Marker>
         ))}
+
+      {locations && <Polyline positions={lineArr as LatLngExpression[]} />}
     </MapContainer>
   );
 };

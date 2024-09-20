@@ -1,11 +1,9 @@
-import Map from '@/components/map';
+import Map from "@/components/map";
 
 const Page = () => {
-
-  
   return (
     <div>
-      <Map isClickable/>
+      <Map isClickable />
     </div>
   );
 };

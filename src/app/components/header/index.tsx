@@ -20,9 +20,9 @@ interface Props {
 }
 
 const Links = [
-  { href: "add", label: "Add Location" },
-  { href: "list", label: "Location List" },
-  { href: "route", label: "Route Lines" },
+  { href: "/add", label: "Add Location" },
+  { href: "/list", label: "Location List" },
+  { href: "/route", label: "Route Lines" },
 ];
 
 const NavLink = (props: Props) => {
@@ -49,8 +49,16 @@ export default function WithAction() {
 
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+      <Box
+        bg={useColorModeValue("gray.100", "gray.900")}
+        textColor={"black"}
+        px={4}
+      >
+        <Flex
+          h={16}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}

@@ -6,18 +6,13 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
-  FormControl,
-  FormLabel,
-  Input,
-  Flex,
-  Select,
 } from "@chakra-ui/react";
 import { LatLng } from "leaflet";
 import { Location } from "./../../lib/slices/locationSlice";
 import { FormEvent } from "react";
+import Form from "../form";
 
 type Props = {
   close: () => void;
@@ -30,7 +25,8 @@ const FormModal = ({ selected, close }: Props) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target); // eslint-disable-line, check it again 
+    //@ts-ignore
+    const formData = new FormData(e.target);
     const locData = Object.fromEntries(formData.entries());
 
     const updatedData = {
@@ -51,38 +47,10 @@ const FormModal = ({ selected, close }: Props) => {
         <ModalHeader>Create New Location</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <form onSubmit={handleSubmit}>
-            <FormControl isRequired>
-              <FormLabel>Location Name</FormLabel>
-              <Input name="title" placeholder="e.g., First Stop" />
-            </FormControl>
-
-            <FormControl isRequired my={5}>
-              <FormLabel>Latitude / Longitude</FormLabel>
-              <Flex gap={2}>
-                <Input disabled value={selected?.lat} />
-                <Input disabled value={selected?.lng} />
-              </Flex>
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel>Color</FormLabel>
-              <Select name="color" placeholder="Select a color">
-                <option value="red">Red</option>
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
-              </Select>
-            </FormControl>
-
-            <ModalFooter my={3}>
-              <Button variant="ghost" mr={3} onClick={close} type="button">
-                Close
-              </Button>
-              <Button colorScheme="blue" type="submit">
-                Create
-              </Button>
-            </ModalFooter>
-          </form>
+          <Form
+            handleSubmit={handleSubmit}
+            latlng={[selected?.lat, selected?.lng] as [number, number]}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>
