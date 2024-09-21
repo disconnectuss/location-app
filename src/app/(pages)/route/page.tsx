@@ -1,6 +1,10 @@
-'use client';
+"use client";
 
-import Map from '@/components/map';
+import dynamic from "next/dynamic";
+
+// Dynamically import the Map component and disable SSR
+const Map = dynamic(() => import('@/components/map'), { ssr: false });
+
 import { useAppSelector } from '@/lib/hooks';
 
 const Page = () => {
@@ -8,7 +12,7 @@ const Page = () => {
 
   return (
     <div>
-      <Map locations={locations}/>
+      <Map locations={locations} isClickable />
     </div>
   );
 };

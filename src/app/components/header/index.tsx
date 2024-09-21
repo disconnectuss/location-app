@@ -9,10 +9,11 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
-  Link,
+  Link as ChakraLink,
   Heading,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
+import NextLink from "next/link"; 
 
 interface Props {
   children: React.ReactNode;
@@ -25,11 +26,12 @@ const Links = [
   { href: "/route", label: "Route Lines" },
 ];
 
+// Update NavLink to use Next.js Link
 const NavLink = (props: Props) => {
-  const { children } = props;
+  const { children, href } = props;
   return (
-    <Link href={props.href}>
-      <Box
+    <NextLink href={href} passHref>
+      <ChakraLink
         px={2}
         py={1}
         rounded={"md"}
@@ -39,8 +41,8 @@ const NavLink = (props: Props) => {
         }}
       >
         {children}
-      </Box>
-    </Link>
+      </ChakraLink>
+    </NextLink>
   );
 };
 
@@ -54,11 +56,7 @@ export default function WithAction() {
         textColor={"black"}
         px={4}
       >
-        <Flex
-          h={16}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
+        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -83,8 +81,9 @@ export default function WithAction() {
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
-            <Link href="/add">
+            <NextLink href="/add" passHref>
               <Button
+                as={ChakraLink}
                 variant={"solid"}
                 colorScheme={"teal"}
                 size={"sm"}
@@ -93,7 +92,7 @@ export default function WithAction() {
               >
                 Add Location
               </Button>
-            </Link>
+            </NextLink>
           </Flex>
         </Flex>
 

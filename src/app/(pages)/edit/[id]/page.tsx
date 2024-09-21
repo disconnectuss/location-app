@@ -41,7 +41,7 @@ const LocationEdit = ({ params }: Props) => {
       </Heading>
 
       {!found ? (
-        <Text>Location couldn&apos;t be found.</Text>
+        <Text>Location could not be found.</Text>
       ) : (
         <Form handleSubmit={handleSubmit} editItem={found} />
       )}

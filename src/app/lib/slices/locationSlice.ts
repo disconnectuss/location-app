@@ -15,7 +15,7 @@ interface LocationState {
 }
 
 const initialState: LocationState = {
-  locations: JSON.parse(localStorage.getItem("locations") || "[]"),
+  locations: [], 
 };
 
 const { reducer, actions } = createSlice({
@@ -27,19 +27,13 @@ const { reducer, actions } = createSlice({
 
       state.locations.push(newLoc);
 
-      localStorage.setItem("locations", JSON.stringify(state.locations));
-
       toast.success("New Location added successfully");
     },
 
     updateLocation: (state, action: PayloadAction<Location>) => {
-      const index = state.locations.findIndex(
-        (i) => i.id === action.payload.id
-      );
+      const index = state.locations.findIndex((i) => i.id === action.payload.id);
 
       state.locations.splice(index, 1, action.payload);
-
-      localStorage.setItem("locations", JSON.stringify(state.locations));
 
       toast.success("Location Updated!");
     },

@@ -17,7 +17,6 @@ import { greenIcon, redIcon, blueIcon, userIcon } from "@/utils/constants";
 import { Heading } from "@chakra-ui/react";
 import getUserLoc from "@/utils/getLoc";
 
-// Map Event Listener
 function MapEventListener() {
   const [selected, setSelected] = useState<LatLng | null>();
   useMapEvent("click", (e) => {
@@ -32,7 +31,6 @@ function MapEventListener() {
 
 type MapProps = { locations?: Location[]; isClickable?: boolean };
 
-// Map Container
 const Map = ({ locations, isClickable }: MapProps) => {
   const userLoc = getUserLoc();
 
@@ -61,7 +59,7 @@ const Map = ({ locations, isClickable }: MapProps) => {
       {locations &&
         locations.map((i) => (
           <Marker
-            key={`${i.lat}-${i.lng}`} // Assign unique key using latitude and longitude
+            key={`${i.lat}-${i.lng}`}
             icon={
               i.color === "red"
                 ? redIcon
