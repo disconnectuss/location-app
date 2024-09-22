@@ -8,7 +8,7 @@ import {
   useMapEvent,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { LatLng, LatLngExpression } from "leaflet";
 import FormModal from "../modal";
 import { Location } from "@/lib/store/locationSlice";
@@ -40,10 +40,26 @@ const getIconByColor = (color: string) => {
   }
 };
 const Map = ({ locations = [], isClickable = false }: MapProps) => {
-  const userLoc = getUserLoc() || [39.9334, 32.8597];
+  const [userLoc, setUserLoc] = useState<[number, number]>([39.9334, 32.8597]); // Default location (Ankara)
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchUserLocation = async () => {
+      try {
+        const loc = await getUserLoc();
+        setUserLoc(loc);
+      } catch (err) {
+        console.error("Error fetching user location:", err);
+        setError("Could not fetch user location, using default.");
+      }
+    };
+    fetchUserLocation();
+  }, []);
   const lineArr = useMemo(() => {
     return locations.length
-      ? [userLoc, ...locations.map((loc) => [loc.lat, loc.lng])]
+      ? [
+          userLoc,
+          ...locations.map((loc) => [loc.lat, loc.lng] as [number, number]),
+        ]
       : [userLoc];
   }, [locations, userLoc]);
   return (
@@ -72,6 +88,7 @@ const Map = ({ locations = [], isClickable = false }: MapProps) => {
       {locations.length > 0 && (
         <Polyline positions={lineArr as LatLngExpression[]} />
       )}
+      {error && <p>{error}</p>}
     </MapContainer>
   );
 };
