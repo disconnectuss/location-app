@@ -1,4 +1,3 @@
-// src/types.tsx
 import { LatLngLiteral } from "leaflet";
 export interface Location {
   id: string;
@@ -37,4 +36,3 @@ export interface FormModalProps {
   close: () => void;
   selected: LatLngLiteral | null;
 }
-export interface RootLayoutProps extends React.PropsWithChildren<{}> {}
