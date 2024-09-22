@@ -1,17 +1,13 @@
 "use client";
 import Form from "@/components/form";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { updateLocation, Location } from "@/lib/store/locationSlice";
+import { updateLocation } from "@/lib/store/locationSlice";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import { FormEvent, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-type Props = {
-  params: {
-    id: string;
-  };
-};
-const LocationEdit = ({ params }: Props) => {
+import { Location, LocationEditProps } from "@/utils/types";
+const LocationEdit = ({ params }: LocationEditProps) => {
   const { locations } = useAppSelector((store) => store.location);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -21,13 +17,14 @@ const LocationEdit = ({ params }: Props) => {
   );
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const formData = new FormData(e.target as HTMLFormElement);
     const locData = Object.fromEntries(formData.entries()) as Partial<Location>;
     if (found) {
       const updatedLoc = { ...found, ...locData };
       dispatch(updateLocation(updatedLoc as Location));
       router.push("/list");
-      toast.success("Location updated successfully")
+      toast.success("Location updated successfully");
     }
   };
   if (!found) {

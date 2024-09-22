@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Box,
   Heading,
@@ -18,13 +18,17 @@ import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import NextLink from "next/link";
 import { deleteLocation } from "@/lib/store/locationSlice";
 import { toast } from "react-toastify";
-const LocationList = () => {
+import { Location } from "@/utils/types";
+const LocationList: React.FC = () => {
   const locations = useAppSelector((state) => state.location.locations);
   const dispatch = useAppDispatch();
-  const handleDelete = (id: string) => {
-    dispatch(deleteLocation(id));
-    toast.success("New Location deleted successfully");
-  };
+  const handleDelete = useCallback(
+    (id: string) => {
+      dispatch(deleteLocation(id));
+      toast.success("Location deleted successfully");
+    },
+    [dispatch]
+  );
   return (
     <Box padding={4}>
       <Flex justifyContent="space-between">
@@ -48,7 +52,7 @@ const LocationList = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {locations.map((location) => (
+              {locations.map((location: Location) => (
                 <Tr key={location.id}>
                   <Td>
                     <Image

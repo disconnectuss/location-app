@@ -13,12 +13,13 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
-const Links = [
+import { LinkItem, NavLinkProps } from "@/utils/types";
+const Links: LinkItem[] = [
   { href: "/add", label: "Add Location" },
   { href: "/list", label: "Location List" },
   { href: "/route", label: "Route Lines" },
 ];
-const NavLink = ({ href, label }: { href: string; label: string }) => {
+const NavLink: React.FC<NavLinkProps> = ({ href, label }) => {
   return (
     <NextLink href={href} passHref>
       <ChakraLink

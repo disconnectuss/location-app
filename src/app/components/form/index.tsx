@@ -1,5 +1,5 @@
 "use client";
-import { Location } from "@/lib/store/locationSlice";
+import { FormProps } from "@/utils/types"; 
 import {
   Button,
   Flex,
@@ -9,21 +9,19 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
-type Props = {
-  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  editItem?: Location;
-  onClose?: () => void;
-  latlng?: [number, number];
-};
-const Form = ({ handleSubmit, editItem, latlng, onClose }: Props) => {
+const Form: React.FC<FormProps> = ({
+  handleSubmit,
+  editItem,
+  latlng,
+  onClose,
+}) => {
   const router = useRouter();
   return (
     <form onSubmit={handleSubmit}>
       <FormControl isRequired>
         <FormLabel>Location Name</FormLabel>
         <Input
-          defaultValue={editItem?.title}
+          defaultValue={editItem?.title || ""}
           name="title"
           placeholder="e.g., First Stop"
           aria-label="Location Name"
@@ -47,7 +45,7 @@ const Form = ({ handleSubmit, editItem, latlng, onClose }: Props) => {
       <FormControl isRequired my={5}>
         <FormLabel>Color</FormLabel>
         <Select
-          defaultValue={editItem?.color}
+          defaultValue={editItem?.color || ""}
           name="color"
           placeholder="Select a color"
           aria-label="Location Color"
@@ -57,7 +55,6 @@ const Form = ({ handleSubmit, editItem, latlng, onClose }: Props) => {
           <option value="green">Green</option>
         </Select>
       </FormControl>
-
       <Flex justifyContent="end">
         <Button
           variant="ghost"
@@ -74,4 +71,5 @@ const Form = ({ handleSubmit, editItem, latlng, onClose }: Props) => {
     </form>
   );
 };
+
 export default Form;

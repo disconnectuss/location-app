@@ -1,16 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-// import { Location } from "@/types/location"; // Consider moving your types into a separate file for reusability
-export interface Location {
-  id: string;
-  title: string;
-  lat: number;
-  lng: number;
-  color: string;
-}
-interface LocationState {
-  locations: Location[];
-}
+import { Location, LocationState } from "@/utils/types";
 const initialState: LocationState = {
   locations: [],
 };
@@ -23,19 +13,23 @@ const locationSlice = createSlice({
         ...action.payload,
         id: uuidv4(),
       };
-      state.locations = [...state.locations, newLocation]; // Immutable push
+      state.locations = [...state.locations, newLocation];
     },
     updateLocation: (state, action: PayloadAction<Location>) => {
-      const index = state.locations.findIndex((i) => i.id === action.payload.id);
-      
+      const index = state.locations.findIndex(
+        (i) => i.id === action.payload.id
+      );
       if (index !== -1) {
-        state.locations[index] = action.payload; // Immutable update
+        state.locations[index] = { ...action.payload };
       }
     },
     deleteLocation: (state, action: PayloadAction<string>) => {
-      state.locations = state.locations.filter((loc) => loc.id !== action.payload); // Immutable delete
+      state.locations = state.locations.filter(
+        (loc) => loc.id !== action.payload
+      );
     },
   },
 });
-export const { addLocation, updateLocation, deleteLocation } = locationSlice.actions;
+export const { addLocation, updateLocation, deleteLocation } =
+  locationSlice.actions;
 export default locationSlice.reducer;

@@ -11,7 +11,7 @@ import "leaflet/dist/leaflet.css";
 import { useState, useEffect, useMemo } from "react";
 import { LatLng, LatLngExpression } from "leaflet";
 import FormModal from "../modal";
-import { Location } from "@/lib/store/locationSlice";
+import { MapProps } from "@/utils/types";
 import { greenIcon, redIcon, blueIcon, userIcon } from "@/utils/constants";
 import { Heading } from "@chakra-ui/react";
 import getUserLoc from "@/utils/getLoc";
@@ -24,10 +24,6 @@ function MapEventListener() {
     <FormModal close={() => setSelected(null)} selected={selected} />
   ) : null;
 }
-type MapProps = {
-  locations?: Location[];
-  isClickable?: boolean;
-};
 const getIconByColor = (color: string) => {
   switch (color) {
     case "red":
@@ -39,7 +35,7 @@ const getIconByColor = (color: string) => {
       return blueIcon;
   }
 };
-const Map = ({ locations = [], isClickable = false }: MapProps) => {
+const Map: React.FC<MapProps> = ({ locations = [], isClickable = false }) => {
   const [userLoc, setUserLoc] = useState<[number, number]>([39.9334, 32.8597]); // Default location (Ankara)
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
@@ -62,6 +58,7 @@ const Map = ({ locations = [], isClickable = false }: MapProps) => {
         ]
       : [userLoc];
   }, [locations, userLoc]);
+
   return (
     <MapContainer center={userLoc} zoom={6} scrollWheelZoom={true}>
       <TileLayer

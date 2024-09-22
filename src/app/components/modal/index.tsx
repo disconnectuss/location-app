@@ -1,3 +1,4 @@
+"use client";
 import { useAppDispatch } from "@/lib/hooks";
 import {
   Modal,
@@ -7,27 +8,27 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { LatLng } from "leaflet";
 import { FormEvent } from "react";
 import Form from "../form";
-import { addLocation, Location } from "@/lib/store/locationSlice";
+import { addLocation } from "@/lib/store/locationSlice";
 import { toast } from "react-toastify";
-type Props = {
-  close: () => void;
-  selected: LatLng | null;
-};
-const FormModal = ({ selected, close }: Props) => {
+import { Location, FormModalProps } from "@/utils/types";
+const FormModal: React.FC<FormModalProps> = ({ selected, close }) => {
   const dispatch = useAppDispatch();
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const locData = Object.fromEntries(formData.entries());
+    const locData = Object.fromEntries(formData.entries()) as Omit<
+      Location,
+      "lat" | "lng"
+    >;
     if (selected) {
       const updatedData: Location = {
         ...locData,
         lat: selected.lat,
         lng: selected.lng,
-      } as Location;
+      };
       dispatch(addLocation(updatedData));
       toast.success("New Location added successfully");
     }

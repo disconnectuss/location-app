@@ -16,5 +16,4 @@ const getLoc = (): Promise<[number, number]> => {
     );
   });
 };
-
 export default getLoc;
