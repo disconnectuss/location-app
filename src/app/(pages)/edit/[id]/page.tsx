@@ -1,52 +1,52 @@
 "use client";
 import Form from "@/components/form";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { updateLocation } from "@/lib/slices/locationSlice";
+import { updateLocation, Location } from "@/lib/store/locationSlice";
 import { Box, Heading, Text } from "@chakra-ui/react";
-import { Location } from "../../../lib/slices/locationSlice";
-import { FormEvent } from "react";
+import { FormEvent, useMemo } from "react";
 import { useRouter } from "next/navigation";
-
+import { toast } from "react-toastify";
 type Props = {
   params: {
     id: string;
   };
 };
-
 const LocationEdit = ({ params }: Props) => {
   const { locations } = useAppSelector((store) => store.location);
   const dispatch = useAppDispatch();
   const router = useRouter();
-
-  const found = locations.find((i) => i.id === params.id);
-
+  const found = useMemo(
+    () => locations.find((i) => i.id === params.id),
+    [locations, params.id]
+  );
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // @ts-expect: Suppressing form typing error for demonstration purposes
     const formData = new FormData(e.target as HTMLFormElement);
-    const locData = Object.fromEntries(formData.entries());
-
-    const updatedLoc = { ...found, ...locData };
-
-    dispatch(updateLocation(updatedLoc as Location));
-
-    router.push("/list");
+    const locData = Object.fromEntries(formData.entries()) as Partial<Location>;
+    if (found) {
+      const updatedLoc = { ...found, ...locData };
+      dispatch(updateLocation(updatedLoc as Location));
+      router.push("/list");
+      toast.success("Location updated successfully")
+    }
   };
-
+  if (!found) {
+    return (
+      <Box padding={4}>
+        <Heading as="h1" size="xl" marginBottom={4}>
+          Edit Location
+        </Heading>
+        <Text>Location could not be found.</Text>
+      </Box>
+    );
+  }
   return (
     <Box padding={4}>
       <Heading as="h1" size="xl" marginBottom={4}>
         Edit Location
       </Heading>
-
-      {!found ? (
-        <Text>Location could not be found.</Text>
-      ) : (
-        <Form handleSubmit={handleSubmit} editItem={found} />
-      )}
+      <Form handleSubmit={handleSubmit} editItem={found} />
     </Box>
   );
 };
-
 export default LocationEdit;

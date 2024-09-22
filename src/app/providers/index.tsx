@@ -1,23 +1,24 @@
-"use client"; // Keep this to ensure client-side rendering
-
+"use client";
 import { ChakraProvider } from "@chakra-ui/react";
 import { CacheProvider } from "@chakra-ui/next-js";
 import { Provider } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "../lib/store"; 
-const Providers = ({ children }: { children: React.ReactNode }) => {
+import { store, persistor } from "../lib/store/store";
+import { memo } from "react";
+const Providers = memo(({ children }: React.PropsWithChildren<{}>) => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <CacheProvider>
-          <ChakraProvider>{children}</ChakraProvider>
-          <ToastContainer position="bottom-right" autoClose={3000} />
+          <ChakraProvider>
+            {children}
+            <ToastContainer position="bottom-right" autoClose={3000} />
+          </ChakraProvider>
         </CacheProvider>
       </PersistGate>
     </Provider>
   );
-};
-
+});
 export default Providers;

@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Box,
   Flex,
@@ -13,22 +12,13 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
-import NextLink from "next/link"; 
-
-interface Props {
-  children: React.ReactNode;
-  href: string;
-}
-
+import NextLink from "next/link";
 const Links = [
   { href: "/add", label: "Add Location" },
   { href: "/list", label: "Location List" },
   { href: "/route", label: "Route Lines" },
 ];
-
-// Update NavLink to use Next.js Link
-const NavLink = (props: Props) => {
-  const { children, href } = props;
+const NavLink = ({ href, label }: { href: string; label: string }) => {
   return (
     <NextLink href={href} passHref>
       <ChakraLink
@@ -40,43 +30,35 @@ const NavLink = (props: Props) => {
           bg: useColorModeValue("gray.200", "gray.700"),
         }}
       >
-        {children}
+        {label}
       </ChakraLink>
     </NextLink>
   );
 };
-
 export default function WithAction() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <>
-      <Box
-        bg={useColorModeValue("gray.100", "gray.900")}
-        textColor={"black"}
-        px={4}
-      >
+      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={"Open Menu"}
+            aria-label={"Toggle Navigation Menu"}
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>
+            <NextLink href="/" passHref>
               <Heading>LooC</Heading>
-            </Box>
+            </NextLink>
             <HStack
               as={"nav"}
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
               {Links.map((link) => (
-                <NavLink href={link.href} key={link.href}>
-                  {link.label}
-                </NavLink>
+                <NavLink href={link.href} label={link.label} key={link.href} />
               ))}
             </HStack>
           </HStack>
@@ -95,18 +77,15 @@ export default function WithAction() {
             </NextLink>
           </Flex>
         </Flex>
-
-        {isOpen ? (
+        {isOpen && (
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
               {Links.map((link) => (
-                <NavLink href={link.href} key={link.href}>
-                  {link.label}
-                </NavLink>
+                <NavLink href={link.href} label={link.label} key={link.href} />
               ))}
             </Stack>
           </Box>
-        ) : null}
+        )}
       </Box>
     </>
   );

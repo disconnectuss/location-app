@@ -1,20 +1,16 @@
 "use client";
-
 import dynamic from "next/dynamic";
-
-// Dynamically import the Map component and disable SSR
-const Map = dynamic(() => import('@/components/map'), { ssr: false });
-
-import { useAppSelector } from '@/lib/hooks';
-
+import { Box } from "@chakra-ui/react";
+import { useAppSelector } from "@/lib/hooks";
+import { useMemo } from "react";
+const Map = dynamic(() => import("@/components/map"), { ssr: false });
 const Page = () => {
-  const { locations } = useAppSelector((store) => store.location);
-
+  const locations = useAppSelector((store) => store.location.locations);
+  const memoizedLocations = useMemo(() => locations, [locations]);
   return (
-    <div>
-      <Map locations={locations} isClickable />
-    </div>
+    <Box>
+      <Map locations={memoizedLocations} isClickable />
+    </Box>
   );
 };
-
 export default Page;

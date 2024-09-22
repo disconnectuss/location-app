@@ -1,11 +1,5 @@
 import Map from "@/components/map";
-
 const Page = () => {
-  return (
-    <div>
-      <Map isClickable />
-    </div>
-  );
+  return <Map isClickable />;
 };
-
 export default Page;
