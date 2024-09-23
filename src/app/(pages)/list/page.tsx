@@ -78,6 +78,7 @@ const LocationList: React.FC = () => {
                       <Button
                         size="sm"
                         colorScheme="red"
+                        data-testid="delete-button"
                         onClick={() => handleDelete(location.id)}
                       >
                         Delete

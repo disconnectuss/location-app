@@ -17,7 +17,6 @@ const LocationEdit = ({ params }: LocationEditProps) => {
   );
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const formData = new FormData(e.target as HTMLFormElement);
     const locData = Object.fromEntries(formData.entries()) as Partial<Location>;
     if (found) {

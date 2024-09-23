@@ -2,6 +2,7 @@ import { LatLngLiteral } from "leaflet";
 export interface Location {
   id: string;
   title: string;
+  name: string;
   lat: number;
   lng: number;
   color: string;
@@ -35,4 +36,7 @@ export interface NavLinkProps {
 export interface FormModalProps {
   close: () => void;
   selected: LatLngLiteral | null;
+}
+interface AppState {
+  location: LocationState;
 }
