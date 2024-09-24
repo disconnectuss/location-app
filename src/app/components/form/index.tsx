@@ -1,5 +1,5 @@
 "use client";
-import { FormProps } from "@/utils/types";
+import { FormProps } from "@/utils/types/types";
 import {
   Button,
   Flex,

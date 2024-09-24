@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import { Box } from "@chakra-ui/react";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppSelector } from "@/utils/hooks/hooks";
 import { useMemo } from "react";
 const Map = dynamic(() => import("@/components/map"), { ssr: false });
 const Page = () => {

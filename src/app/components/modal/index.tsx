@@ -1,5 +1,5 @@
 "use client";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch } from "@/utils/hooks/hooks";
 import {
   Modal,
   ModalBody,
@@ -12,7 +12,7 @@ import { FormEvent } from "react";
 import Form from "../form";
 import { addLocation } from "@/lib/store/locationSlice";
 import { toast } from "react-toastify";
-import { Location, FormModalProps } from "@/utils/types";
+import { Location, FormModalProps } from "@/utils/types/types";
 const FormModal: React.FC<FormModalProps> = ({ selected, close }) => {
   const dispatch = useAppDispatch();
 

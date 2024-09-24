@@ -1,18 +1,18 @@
 "use client";
 import Form from "@/components/form";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks/hooks";
 import { updateLocation } from "@/lib/store/locationSlice";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import { FormEvent, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { Location, LocationEditProps } from "@/utils/types";
+import { Location, LocationEditProps } from "@/utils/types/types";
 const LocationEdit = ({ params }: LocationEditProps) => {
   const { locations } = useAppSelector((store) => store.location);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const found = useMemo(
-    () => locations.find((i) => i.id === params.id),
+    () => locations.find((i: Location) => i.id === params.id),
     [locations, params.id]
   );
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

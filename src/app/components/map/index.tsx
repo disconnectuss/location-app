@@ -11,10 +11,10 @@ import "leaflet/dist/leaflet.css";
 import { useState, useEffect, useMemo } from "react";
 import { LatLng, LatLngExpression } from "leaflet";
 import FormModal from "../modal";
-import { MapProps } from "@/utils/types";
-import { greenIcon, redIcon, blueIcon, userIcon } from "@/utils/constants";
+import { MapProps } from "@/utils/types/types";
+import { greenIcon, redIcon, blueIcon, userIcon } from "@/utils/constants/constants";
 import { Heading } from "@chakra-ui/react";
-import getUserLoc from "@/utils/getLoc";
+import getUserLoc from "@/utils/funcs/getLoc";
 function MapEventListener() {
   const [selected, setSelected] = useState<LatLng | null>(null);
   useMapEvent("click", (e) => {

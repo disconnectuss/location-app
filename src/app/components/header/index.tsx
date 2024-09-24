@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
-import { LinkItem, NavLinkProps } from "@/utils/types";
+import { LinkItem, NavLinkProps } from "@/utils/types/types";
 const Links: LinkItem[] = [
   { href: "/add", label: "Add Location" },
   { href: "/list", label: "Location List" },

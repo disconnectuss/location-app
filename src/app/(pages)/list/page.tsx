@@ -14,11 +14,11 @@ import {
   Button,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import { useAppSelector, useAppDispatch } from "@/utils/hooks/hooks";
 import NextLink from "next/link";
 import { deleteLocation } from "@/lib/store/locationSlice";
 import { toast } from "react-toastify";
-import { Location } from "@/utils/types";
+import { Location } from "@/utils/types/types";
 const LocationList: React.FC = () => {
   const locations = useAppSelector((state) => state.location.locations);
   const dispatch = useAppDispatch();
