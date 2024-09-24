@@ -38,6 +38,7 @@ const getIconByColor = (color: string) => {
 const Map: React.FC<MapProps> = ({ locations = [], isClickable = false }) => {
   const [userLoc, setUserLoc] = useState<[number, number]>([39.9334, 32.8597]); // Default location (Ankara)
   const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchUserLocation = async () => {
       try {
@@ -50,6 +51,7 @@ const Map: React.FC<MapProps> = ({ locations = [], isClickable = false }) => {
     };
     fetchUserLocation();
   }, []);
+
   const lineArr = useMemo(() => {
     return locations.length
       ? [
@@ -58,7 +60,6 @@ const Map: React.FC<MapProps> = ({ locations = [], isClickable = false }) => {
         ]
       : [userLoc];
   }, [locations, userLoc]);
-
   return (
     <MapContainer center={userLoc} zoom={6} scrollWheelZoom={true}>
       <TileLayer
@@ -77,8 +78,12 @@ const Map: React.FC<MapProps> = ({ locations = [], isClickable = false }) => {
         >
           <Popup>
             <Heading size="sm">{loc.title}</Heading>
-            <p>{loc.lat}</p>
-            <p>{loc.lng}</p>
+            <p>
+              <strong>Latitude:</strong> {loc.lat}
+            </p>
+            <p>
+              <strong>Longitude:</strong> {loc.lng}
+            </p>
           </Popup>
         </Marker>
       ))}

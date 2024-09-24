@@ -38,7 +38,7 @@ const FormModal: React.FC<FormModalProps> = ({ selected, close }) => {
     <Modal isOpen={!!selected} onClose={close} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Create New Location</ModalHeader>
+        <ModalHeader>Do you want to add to your location list?</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {selected && (

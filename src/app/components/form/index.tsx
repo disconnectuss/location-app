@@ -1,5 +1,5 @@
 "use client";
-import { FormProps } from "@/utils/types"; 
+import { FormProps } from "@/utils/types";
 import {
   Button,
   Flex,
@@ -65,11 +65,10 @@ const Form: React.FC<FormProps> = ({
           {editItem ? "Back" : "Close"}
         </Button>
         <Button colorScheme="blue" type="submit">
-          {editItem ? "Save" : "Create"}
+          {editItem ? "Save" : "Add"}
         </Button>
       </Flex>
     </form>
   );
 };
-
 export default Form;

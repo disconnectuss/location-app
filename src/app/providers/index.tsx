@@ -1,5 +1,4 @@
 "use client";
-
 import { ChakraProvider } from "@chakra-ui/react";
 import { CacheProvider } from "@chakra-ui/next-js";
 import { Provider } from "react-redux";
@@ -9,7 +8,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "../lib/store/store";
 import { memo } from "react";
 
-// Updated type for children
 const Providers = memo(({ children }: { children: React.ReactNode }) => {
   return (
     <Provider store={store}>
@@ -24,8 +22,5 @@ const Providers = memo(({ children }: { children: React.ReactNode }) => {
     </Provider>
   );
 });
-
-// Adding display name for easier debugging
 Providers.displayName = "Providers";
-
 export default Providers;

@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Heading,
@@ -22,6 +22,12 @@ import { Location } from "@/utils/types";
 const LocationList: React.FC = () => {
   const locations = useAppSelector((state) => state.location.locations);
   const dispatch = useAppDispatch();
+  const [sortedLocations, setSortedLocations] = useState<Location[]>([]);
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+
   const handleDelete = useCallback(
     (id: string) => {
       dispatch(deleteLocation(id));
@@ -29,6 +35,34 @@ const LocationList: React.FC = () => {
     },
     [dispatch]
   );
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ lat: latitude, lng: longitude });
+      });
+    }
+  }, []);
+  useEffect(() => {
+    if (userLocation && locations.length > 0) {
+      const sorted = [...locations].sort((a, b) => {
+        const distanceA = getDistanceFromLatLonInKm(
+          userLocation.lat,
+          userLocation.lng,
+          a.lat,
+          a.lng
+        );
+        const distanceB = getDistanceFromLatLonInKm(
+          userLocation.lat,
+          userLocation.lng,
+          b.lat,
+          b.lng
+        );
+        return distanceA - distanceB;
+      });
+      setSortedLocations(sorted);
+    }
+  }, [userLocation, locations]);
   return (
     <Box padding={4}>
       <Flex justifyContent="space-between">
@@ -39,7 +73,7 @@ const LocationList: React.FC = () => {
           Show Route
         </Button>
       </Flex>
-      {locations.length > 0 ? (
+      {sortedLocations.length > 0 ? (
         <TableContainer>
           <Table variant="simple">
             <Thead>
@@ -52,7 +86,7 @@ const LocationList: React.FC = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {locations.map((location: Location) => (
+              {sortedLocations.map((location) => (
                 <Tr key={location.id}>
                   <Td>
                     <Image
@@ -78,7 +112,6 @@ const LocationList: React.FC = () => {
                       <Button
                         size="sm"
                         colorScheme="red"
-                        data-testid="delete-button"
                         onClick={() => handleDelete(location.id)}
                       >
                         Delete
@@ -96,4 +129,25 @@ const LocationList: React.FC = () => {
     </Box>
   );
 };
+function getDistanceFromLatLonInKm(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number {
+  const R = 6371;
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+function deg2rad(deg: number): number {
+  return deg * (Math.PI / 180);
+}
 export default LocationList;
