@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
-import { Location, LocationState } from "@/utils/types";
+import { Location, LocationState } from "@/utils/types/types";
 const initialState: LocationState = {
   locations: [],
 };
