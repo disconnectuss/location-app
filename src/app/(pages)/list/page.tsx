@@ -19,6 +19,7 @@ import NextLink from "next/link";
 import { deleteLocation } from "@/lib/store/locationSlice";
 import { toast } from "react-toastify";
 import { Location } from "@/utils/types/types";
+
 const LocationList: React.FC = () => {
   const locations = useAppSelector((state) => state.location.locations);
   const dispatch = useAppDispatch();
@@ -27,7 +28,19 @@ const LocationList: React.FC = () => {
     lat: number;
     lng: number;
   } | null>(null);
-
+  const [checked, setChecked] = useState<string[]>([]);
+  const handleCheckboxChange = (id: string) => {
+    setChecked((prevChecked) =>
+      prevChecked.includes(id)
+        ? prevChecked.filter((checkedId) => checkedId !== id)
+        : [...prevChecked, id]
+    );
+  };
+  const deleteChecked = () => {
+    checked.map((id) => dispatch(deleteLocation(id)));
+    toast.success("Selected locations deleted successfully");
+    setChecked([]);
+  };
   const handleDelete = useCallback(
     (id: string) => {
       dispatch(deleteLocation(id));
@@ -69,6 +82,9 @@ const LocationList: React.FC = () => {
         <Heading as="h1" size="xl" marginBottom={4}>
           Location List
         </Heading>
+        <Button onClick={deleteChecked} isDisabled={checked.length === 0}>
+          Delete {}
+        </Button>
         <Button as={NextLink} href="/route">
           Show Route
         </Button>
@@ -78,6 +94,7 @@ const LocationList: React.FC = () => {
           <Table variant="simple">
             <Thead>
               <Tr>
+                <Th>Select</Th>
                 <Th>Icon</Th>
                 <Th>Title</Th>
                 <Th>Latitude</Th>
@@ -88,6 +105,13 @@ const LocationList: React.FC = () => {
             <Tbody>
               {sortedLocations.map((location) => (
                 <Tr key={location.id}>
+                  <Td>
+                    <input
+                      type="checkbox"
+                      checked={checked.includes(location.id)}
+                      onChange={() => handleCheckboxChange(location.id)}
+                    />
+                  </Td>
                   <Td>
                     <Image
                       width={35}
@@ -129,6 +153,7 @@ const LocationList: React.FC = () => {
     </Box>
   );
 };
+
 function getDistanceFromLatLonInKm(
   lat1: number,
   lon1: number,
@@ -147,7 +172,9 @@ function getDistanceFromLatLonInKm(
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
+
 function deg2rad(deg: number): number {
   return deg * (Math.PI / 180);
 }
+
 export default LocationList;
