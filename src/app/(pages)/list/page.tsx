@@ -83,7 +83,7 @@ const LocationList: React.FC = () => {
           Location List
         </Heading>
         <Button onClick={deleteChecked} isDisabled={checked.length === 0}>
-          Delete {}
+          Delete {checked.length > 0 ? `(${checked.length})` : ""}
         </Button>
         <Button as={NextLink} href="/route">
           Show Route
