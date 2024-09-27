@@ -22,8 +22,8 @@ export interface LocationEditProps {
 export interface FormProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   editItem?: Location;
-  onClose?: () => void;
   latlng?: [number, number];
+  onClose?: () => void;
 }
 export interface LinkItem {
   href: string;

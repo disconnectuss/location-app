@@ -1,4 +1,3 @@
-// page.test.tsx
 import { render, screen } from "@testing-library/react";
 import Page from "../../src/app/(pages)/add/page";
 import "@testing-library/jest-dom";

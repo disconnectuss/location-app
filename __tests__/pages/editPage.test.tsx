@@ -1,11 +1,11 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import LocationEdit from "@/(pages)/edit/[id]/page";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks/hooks";
 import { useRouter } from "next/navigation";
 import { updateLocation } from "@/lib/store/locationSlice";
 import { toast } from "react-toastify";
 import "@testing-library/jest-dom";
-jest.mock("@/lib/hooks", () => ({
+jest.mock("@/utils/hooks/hooks", () => ({
   useAppDispatch: jest.fn(),
   useAppSelector: jest.fn(),
 }));
