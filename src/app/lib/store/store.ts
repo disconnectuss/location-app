@@ -12,6 +12,12 @@ export const store = configureStore({
   reducer: {
     location: persistedLocationReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+      },
+    }),
 });
 export const persistor = persistStore(store);
 export type AppStore = typeof store;

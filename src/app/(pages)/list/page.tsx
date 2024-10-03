@@ -136,6 +136,7 @@ const LocationList: React.FC = () => {
                       <Button
                         size="sm"
                         colorScheme="red"
+                        data-testid={`delete-button-${location.id}`} 
                         onClick={() => handleDelete(location.id)}
                       >
                         Delete
@@ -153,7 +154,6 @@ const LocationList: React.FC = () => {
     </Box>
   );
 };
-
 function getDistanceFromLatLonInKm(
   lat1: number,
   lon1: number,
@@ -172,9 +172,7 @@ function getDistanceFromLatLonInKm(
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
-
 function deg2rad(deg: number): number {
   return deg * (Math.PI / 180);
 }
-
 export default LocationList;
